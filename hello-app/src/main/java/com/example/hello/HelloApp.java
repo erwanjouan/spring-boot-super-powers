@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class HelloApp {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HelloApp.class, args);
-	}
+    public static void main(final String[] args) {
+        SpringApplication.run(HelloApp.class, args);
+    }
 
-	@Bean
-	public HelloService helloService(){
-		return new ConsoleHelloService("Howdy", "!");
-	}
+    @Bean
+    public HelloService helloService() {
+        return new ConsoleHelloService("Howdy", "!");
+    }
 }
