@@ -1,5 +1,6 @@
 package hello.autoconfigure;
 
+import hello.ConsoleHelloService;
 import hello.HelloService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -35,6 +37,14 @@ class HelloAutoConfigurationTest {
         assertTrue(capturedOutput.getOut().contains("World"));
     }
 
+    @Test
+    void defaultServiceBacksOff(final CapturedOutput capturedOutput) {
+        this.load(UserConfiguration.class);
+        final HelloService bean = this.context.getBean(HelloService.class);
+        bean.sayHello("Works");
+        assertTrue(capturedOutput.getOut().contains("Mine Works*"));
+    }
+
     private void load(final Class<?> config, final String... environment) {
         final AnnotationConfigApplicationContext ctx =
                 new AnnotationConfigApplicationContext();
@@ -54,7 +64,10 @@ class HelloAutoConfigurationTest {
     @Import(EmptyConfiguration.class)
     static class UserConfiguration {
 
-
+        @Bean
+        public HelloService myHelloService() {
+            return new ConsoleHelloService("Mine", "*");
+        }
     }
 
 }
