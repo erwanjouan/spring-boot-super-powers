@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(OutputCaptureExtension.class)
-public class HelloAutoConfigurationTest {
+class HelloAutoConfigurationTest {
 
     private ConfigurableApplicationContext context;
 
@@ -28,15 +28,15 @@ public class HelloAutoConfigurationTest {
     }
 
     @Test
-    public void defaultServiceIsAutoConfigured(CapturedOutput capturedOutput) {
-        load(EmptyConfiguration.class);
-        HelloService service = this.context.getBean(HelloService.class);
+    void defaultServiceIsAutoConfigured(final CapturedOutput capturedOutput) {
+        this.load(EmptyConfiguration.class);
+        final HelloService service = this.context.getBean(HelloService.class);
         service.sayHello("World");
         assertTrue(capturedOutput.getOut().contains("World"));
     }
 
-    private void load(Class<?> config, String... environment) {
-        AnnotationConfigApplicationContext ctx =
+    private void load(final Class<?> config, final String... environment) {
+        final AnnotationConfigApplicationContext ctx =
                 new AnnotationConfigApplicationContext();
         ctx.register(config);
         TestPropertyValues.of(environment).applyTo(ctx);

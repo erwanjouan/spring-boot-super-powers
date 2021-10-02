@@ -19,7 +19,6 @@
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>hello-service</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
