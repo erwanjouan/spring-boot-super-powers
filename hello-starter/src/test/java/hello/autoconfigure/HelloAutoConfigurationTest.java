@@ -31,10 +31,10 @@ class HelloAutoConfigurationTest {
 
     @Test
     void defaultServiceIsAutoConfigured(final CapturedOutput capturedOutput) {
-        this.load(EmptyConfiguration.class);
+        this.load(EmptyConfiguration.class, "hello.prefix=Test", "hello.suffix=*");
         final HelloService service = this.context.getBean(HelloService.class);
         service.sayHello("World");
-        assertTrue(capturedOutput.getOut().contains("World"));
+        assertTrue(capturedOutput.getOut().contains("Test World*"));
     }
 
     @Test
