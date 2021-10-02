@@ -7,29 +7,29 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
-public class OnValidHelloPrefixCondition extends SpringBootCondition {
+class OnValidHelloPrefixCondition extends SpringBootCondition {
 
-	private static final String PROPERTY_NAME = "hello.prefix";
+    private static final String PROPERTY_NAME = "hello.prefix";
 
-	@Override
-	public ConditionOutcome getMatchOutcome(ConditionContext context,
-			AnnotatedTypeMetadata metadata) {
-		ConditionMessage.Builder condition =
-				ConditionMessage.forCondition("ValidHelloPrefix");
-		Environment environment = context.getEnvironment();
-		if (environment.containsProperty(PROPERTY_NAME)) {
-			String value = environment.getProperty(PROPERTY_NAME);
-			if (Character.isUpperCase(value.charAt(0))) {
-				return ConditionOutcome.match(
-						condition.available(String.format("valid prefix ('%s')", value)));
-			}
-			return ConditionOutcome.noMatch(
-					condition.because(String.format("rejected the prefix ‘%s’ as it " +
-							"does not start with an upper-case character", value)));
+    @Override
+    public ConditionOutcome getMatchOutcome(final ConditionContext context,
+											final AnnotatedTypeMetadata metadata) {
+        final ConditionMessage.Builder condition =
+                ConditionMessage.forCondition("ValidHelloPrefix");
+        final Environment environment = context.getEnvironment();
+        if (environment.containsProperty(PROPERTY_NAME)) {
+            final String value = environment.getProperty(PROPERTY_NAME);
+            if (Character.isUpperCase(value.charAt(0))) {
+                return ConditionOutcome.match(
+                        condition.available(String.format("valid prefix ('%s')", value)));
+            }
+            return ConditionOutcome.noMatch(
+                    condition.because(String.format("rejected the prefix ‘%s’ as it " +
+                            "does not start with an upper-case character", value)));
 
-		}
-		return ConditionOutcome.noMatch(
-				condition.didNotFind("property").items("'hello.prefix'"));
-	}
+        }
+        return ConditionOutcome.noMatch(
+                condition.didNotFind("property").items("'hello.prefix'"));
+    }
 
 }
