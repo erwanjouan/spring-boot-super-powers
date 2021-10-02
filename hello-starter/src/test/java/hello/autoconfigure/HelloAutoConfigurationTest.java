@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(OutputCaptureExtension.class)
@@ -43,6 +44,18 @@ class HelloAutoConfigurationTest {
         final HelloService bean = this.context.getBean(HelloService.class);
         bean.sayHello("Works");
         assertTrue(capturedOutput.getOut().contains("Mine Works*"));
+    }
+
+    @Test
+    public void defaultServiceIsNotAutoConfiguredIfPrefixIsMissing() {
+        this.load(EmptyConfiguration.class);
+        assertThat(this.context.getBeansOfType(HelloService.class).isEmpty());
+    }
+
+    @Test
+    public void defaultServiceIsNotAutoConfiguredWithWrongPrefix() {
+        this.load(EmptyConfiguration.class, "hello.prefix=wrong");
+        assertThat(this.context.getBeansOfType(HelloService.class).isEmpty());
     }
 
     private void load(final Class<?> config, final String... environment) {

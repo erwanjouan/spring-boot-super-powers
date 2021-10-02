@@ -14,7 +14,7 @@ public class HelloCommandLineRunner implements CommandLineRunner {
     }
 
     @Override
-    public void run(final String... args) throws Exception {
-        this.helloService.sayHello("World from App");
+    public void run(final String... args) {
+        this.helloService.sayHello("World");
     }
 }
